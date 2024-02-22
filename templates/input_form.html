@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap 4 Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+
+    <form class="form-inline" method="post">
+        {%csrf_token%}
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name ="url">
+        <button class="btn btn-outline-success my-2 my-sm-0" id="search-btn" type="submit">Search</button>
+    </form>
+    {%if heatmap%}
+        
+        <img src="data:image/png;base64,{{heatmap}}" alt="">
+    {%endif%}
+
+</body>
+<!-- <script>
+    document.getElementById("search-btn").addEventListener("click", async () => {
+        const value = document.getElementById("Search-input").value;
+        var csrfToken = document.querySelector("input[name='csrfmiddlewaretoken']").value;
+        try {
+            const response = await fetch(`${window.location.pathname}`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    "X-CSRFToken": csrfToken
+                },
+                body: JSON.stringify(filterdata),
+            });
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data);
+            } else {
+                console.log('Error');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    });
+    
+</script> -->
+</html>
