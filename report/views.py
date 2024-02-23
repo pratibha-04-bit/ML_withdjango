@@ -103,9 +103,28 @@ def predict_view(request):
 
                     # Convert the image to base64
                     heatmap = base64.b64encode(buffer.getvalue()).decode()
+                    ##############################################
+                    last_analysis_stats = data['data']['attributes']['last_analysis_stats']
+
+                    ######################################################################
+                    malicious = data['data']['attributes']['last_analysis_stats']['malicious']
+                    xcitium_category = data["data"]["attributes"]["categories"].get("Xcitium Verdict Cloud")
+                    alphaMountain_category = data["data"]["attributes"]["categories"].get("alphaMountain.ai")
+                    forcepoint_category = data["data"]["attributes"]["categories"].get("Forcepoint ThreatSeeker")
+
+                    threat_names = data['data']['attributes']['threat_names']
+                    url = data['data']['attributes']['url']
+                    sha256_value = data['data']['attributes']['last_http_response_content_sha256']
+
 
                                      
-                    return render(request, 'input_form.html',{"heatmap":heatmap})
+                    return render(request, 'input_form.html',{"heatmap":heatmap,'xcitium_category':xcitium_category,
+                                                              'alphaMountain_category':alphaMountain_category,
+                                                              'forcepoint_category':forcepoint_category,
+                                                              'threat_names':threat_names,'url':url,
+                                                               'sha256':sha256_value ,
+                                                               'malicious':malicious,
+                                                               'last_analysis_stats':last_analysis_stats})
 
             else:
                 return render(request, 'input_form.html',{"data":"url not exists"})
