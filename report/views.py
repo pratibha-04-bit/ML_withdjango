@@ -1,4 +1,4 @@
-from django.shortcuts import render ,HttpResponse
+from django.shortcuts import render ,HttpResponse,redirect
 from django.http import JsonResponse
 import joblib ,requests
 from scipy.sparse import csr_matrix
@@ -9,6 +9,10 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import pandas as pd
 # Create your views here.
+
+
+
+
 def test(request):
     return HttpResponse("helllo")
 
@@ -130,3 +134,27 @@ def predict_view(request):
                 return render(request, 'input_form.html',{"data":"url not exists"})
     else:
         return render(request, 'input_form.html')
+    
+
+def form_builder(request):
+    return render(request,'form_builder.html')
+
+
+def form(request):
+
+    return render(request,'example.html')
+
+def add_form(request):
+    if request.method == 'POST':
+        client = request.POST.getlist('client[]')
+        domain = request.POST.get('domain')
+
+        # Mock response from third-party API
+        response_status = 200  # Mock success status code
+
+        if response_status == 200:
+            return JsonResponse({'status': 200, 'message': 'Data sent successfully!', 'clients': client})
+        else:
+            return JsonResponse({'status': response_status, 'message': 'Failed to send data.'}, status=response_status)
+    return JsonResponse({'status': 400, 'message': 'Invalid request.'}, status=400)
+    

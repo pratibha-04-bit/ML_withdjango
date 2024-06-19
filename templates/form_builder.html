@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="add-btn">Add + </button>
+    <div id="fields"></div>
+    <input type="hidden" name="custom">
+    
+<script>
+    document.getElementById("add-btn").addEventListener("click",()=>{
+
+        const f_div = document.getElementById("fields")
+        const n_div = document.createElement("div")
+        const K_i = document.createElement("input")
+        const V_i = document.createElement("input")
+
+        K_i.setAttribute("name","Key Name")
+        V_i.setAttribute("name","Value Name")
+        K_i.setAttribute("placeholder","Key Name")
+        V_i.setAttribute("placeholder","Value Name")
+
+
+
+        const r_btn=document.createElement("button")
+        r_btn.textContent ="Remove"
+        r_btn.addEventListener("click",()=>{
+            f_div.removeChild(n_div)
+        })
+
+        const s_btn=document.createElement("button")
+        s_btn.textContent ="save"
+        s_btn.addEventListener("click",()=>{
+            console.log(":here")
+        })
+         
+        n_div.appendChild(K_i)
+        n_div.appendChild(V_i)
+        n_div.appendChild(r_btn)
+        n_div.appendChild(s_btn)
+        f_div.appendChild(n_div)
+
+
+    }
+    )
+    const cusom =[]
+</script>
+</body>
+</html>
