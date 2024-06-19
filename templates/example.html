@@ -1,0 +1,131 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="{% static 'js/multiselect-dropdown.js' %}"></script>
+
+  <style>
+    select{
+        width: 20em;
+    }
+   
+    .multiselect-dropdown-list-wrapper { 
+        box-shadow:gray 0 3px 8px; 
+        z-index: 100; 
+        padding: 2px;
+        border-radius: 4px; 
+        border: solid 1px #242627; 
+        display: none; 
+        margin: -1px; 
+        position: absolute; 
+        top: 0; 
+        left: 0; 
+        right: 0; 
+        background: #cdd6f408; 
+     }
+    .multiselect-dropdown { 
+        display: inline-block;  
+        padding: 1rem 1rem; 
+        border-radius: 4px;  
+        border: solid 1px #373e53; 
+        background-color: #f3f5f856; 
+    }
+.multiselect-dropdown span.placeholder {
+    color: #ced4da12;
+    display: none;
+}
+.multiselect-dropdown span.optext{
+    background-color: #e3e7ee14;
+    padding: 2px 0.75em;
+    margin-top: 5px;
+}
+.icon {
+    font-size: 20px;
+    margin-left: 10px;
+}
+.success-icon {
+    color: green;
+}
+.error-icon {
+    color: red;
+}
+  </style>
+</head>
+<body>
+
+<div class="container">
+ <div class="card">
+    <div class="card-body">
+        <div>
+            <form action="" method="post" id="demo-form2">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                            <select class="form-select multiselect-dropdown" name="client" id="client" multiple multiselect-search="true" multiselect-select-all="true" multiselect-max-items="50" placeholder="client">
+                                <option value="port53">Port53</option>
+                                <option value="allirds">Allbirds</option>
+                                <option value="avixa">Avixa</option>
+                            </select>
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <textarea name="" id="" cols="30" rows="10" name="dommain" id ="domain">
+
+                        </textarea>
+                    </div>
+                </div>
+                
+                     
+                </div>
+                <button type="submit" id="save" class="btn btn-success">Save</button>
+            </form>
+
+            <div id="success"></div>
+        </div>
+    </div>
+ </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $('#save').on('click',function(){
+            event.preventDefault();
+                
+            var client = $("#client").val();
+            var domain = $("#domain").val();
+            
+            console.log(client, domain);
+
+            $.ajax({
+                url: 'add_form',
+                type: 'POST',
+                data: {
+                    client: client,
+                    domain: domain,
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+                },
+                success: function(data) {
+                    $('#success').empty();
+                    if (data.status === 200) {
+                        data.clients.forEach(function(client) {
+                            $('#success').append('<p>' + client + ' <span class="success-icon">✔️</span></p>');
+                        });
+                    } else {
+                        $('#success').append('<p>Failed to send data. <span class="error-icon">❌</span></p>');
+                    }
+                },
+                error: function(data) {
+                    $('#success').empty();
+                    $('#success').append('<p>Failed to send data. <span class="error-icon">❌</span></p>');
+                }
+            });
+        });
+
+    });
+</script>
+</body>
+</html>
